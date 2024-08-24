@@ -3,7 +3,8 @@ package intervalapi.service;
 
 
 public class ClosedInterval implements Interval {
-    private double x1, x2;
+    private final double x1;
+    private final double x2;
 
     /**
      * Add  ClosedInterval

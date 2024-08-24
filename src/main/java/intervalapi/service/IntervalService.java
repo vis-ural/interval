@@ -41,8 +41,8 @@ public class IntervalService {
      */
     public List<Interval> addClosedInterval(double x1, double x2) {
         intervalList.add(new ClosedInterval(x1, x2));
-        System.out.println("addClosedInterval");
-        System.out.println(intervalList.toString());
+        //System.out.println("addClosedInterval");
+        //System.out.println(intervalList.toString());
         return intervalList;
     }
 
@@ -55,8 +55,8 @@ public class IntervalService {
      */
     public List<Interval> addOpenInterval(double x1, double x2) {
         intervalList.add((Interval) new OpenInterval(x1, x2));
-        System.out.println("addOpenInterval");
-        System.out.println(intervalList.toString());
+        //System.out.println("addOpenInterval");
+        //System.out.println(intervalList.toString());
         return intervalList;
     }
 
@@ -105,7 +105,7 @@ public class IntervalService {
      * @return Double
      */
     public Double findClosest(double x) {
-        System.out.println("findClosest");
+        //System.out.println("findClosest");
         List<Interval> intersections = getIntersectionIntervals();
         // Собираем концы всех пересекающихся интервалов
         List<Double> points = new ArrayList<>();
@@ -129,8 +129,8 @@ public class IntervalService {
         }
         Collections.sort(points);
 
-        System.out.println("binarySearchClosest");
-        System.out.println(points.toString());
+        //System.out.println("binarySearchClosest");
+        //System.out.println(points.toString());
         return binarySearchClosest(points, x);
     }
 
