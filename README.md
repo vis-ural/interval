@@ -36,6 +36,10 @@ curl -X GET "http://localhost:8080/api/list" |jq
 # Очистить список
 curl -X GET "http://localhost:8080/api/clear" |jq
 
+# Test
+k6 run k6.js
+
+<img alt="Test" src="test.png"/>
 
 
 
