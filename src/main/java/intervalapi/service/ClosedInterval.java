@@ -11,7 +11,7 @@ public class ClosedInterval implements Interval {
      * @param x2 Double
      */
     public ClosedInterval(double x1, double x2) {
-        System.out.println("ClosedInterval");
+        //System.out.println("ClosedInterval");
         this.x1 = x1;
         this.x2 = x2;
     }

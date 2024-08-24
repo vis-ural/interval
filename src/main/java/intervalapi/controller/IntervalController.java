@@ -1,5 +1,6 @@
 package intervalapi.controller;
 
+import intervalapi.service.Interval;
 import intervalapi.service.IntervalService;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,12 +25,12 @@ public class IntervalController {
      * @param x2 Double
      */
     @PostMapping("/addClosedInterval")
-    public void addClosedInterval(@RequestParam double x1, @RequestParam double x2) {
+    public List<Interval> addClosedInterval(@RequestParam double x1, @RequestParam double x2) {
         if (intervalService.getCount() < 10) {
-            intervalService.addClosedInterval(x1, x2);
+            return intervalService.addClosedInterval(x1, x2);
         } else
             System.out.println("Error max limit 10 elements");
-
+        return List.of();
     }
 
     /**
@@ -39,12 +40,12 @@ public class IntervalController {
      * @param x2 Double
      */
     @PostMapping("/addOpenInterval")
-    public void addOpenInterval(@RequestParam double x1, @RequestParam double x2) {
+    public List<Interval> addOpenInterval(@RequestParam double x1, @RequestParam double x2) {
         if (intervalService.getCount() < 10) {
-            intervalService.addOpenInterval(x1, x2);
+            return  intervalService.addOpenInterval(x1, x2);
         } else
             System.out.println("Error max limit 10 elements");
-
+        return List.of();
 
     }
 
@@ -72,18 +73,20 @@ public class IntervalController {
 
     /**
      * Просмотр текущего списка
+     *
+     * @return String
      */
     @GetMapping("/list")
-    public void list() {
-        intervalService.list();
+    public List<Interval> list() {
+        return intervalService.list();
     }
 
     /**
      * Очистка текущего списка
      */
     @GetMapping("/clear")
-    public void clear() {
-        intervalService.clear();
+    public List<Interval>  clear() {
+        return intervalService.clear();
     }
 
 }

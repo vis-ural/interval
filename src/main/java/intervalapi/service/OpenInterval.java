@@ -12,7 +12,7 @@ public class OpenInterval implements Interval {
      * @param x2 Double
      */
     public OpenInterval(double x1, double x2) {
-        System.out.println("OpenInterval");
+        //System.out.println("OpenInterval");
         this.x1 = x1;
         this.x2 = x2;
     }
