@@ -1,0 +1,6 @@
+intervalapi/controller/IntervalController.class
+intervalapi/service/Interval.class
+intervalapi/service/OpenInterval.class
+intervalapi/IntervalApiApplication.class
+intervalapi/service/IntervalService.class
+intervalapi/service/ClosedInterval.class

@@ -1,49 +1,89 @@
 package intervalapi.controller;
 
- 
-import org.springframework.beans.factory.annotation.Autowired;
+import intervalapi.service.IntervalService;
+
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
-import intervalapi.service.Interval;
-import intervalapi.service.IntervalSet;
- 
+
 @RestController
 @RequestMapping("/api")
 public class IntervalController {
 
-    public List<Interval> set;
-    
-    @PostMapping("/init")
-    public void init(@RequestParam double x1, @RequestParam double x2) {
-         set = new IntervalSet();
+    @Resource
+    @Qualifier("intervalService")
+    private IntervalService intervalService;
+
+    /**
+     * Добавление закрытого интервала
+     *
+     * @param x1 Double
+     * @param x2 Double
+     */
+    @PostMapping("/addClosedInterval")
+    public void addClosedInterval(@RequestParam double x1, @RequestParam double x2) {
+        if (intervalService.getCount() < 10) {
+            intervalService.addClosedInterval(x1, x2);
+        } else
+            System.out.println("Error max limit 10 elements");
+
     }
 
-     // Метод для добавления интервала вида (-∞, x1] U [x2, +∞)
-    @PostMapping("/addInfiniteInterval")
-    public void addInfiniteInterval(@RequestParam double x1, @RequestParam double x2) {
-         set.addInfiniteInterval(x1, x2);
-    }
-    // Метод для добавления интервала вида [x1, x2]
-    @PostMapping("/addFiniteInterval")
-    public void addFiniteInterval(@RequestParam double x1, @RequestParam double x2) {
-         set.addFiniteInterval(x1, x2);
+    /**
+     * Добавление открытого интервала
+     *
+     * @param x1 Double
+     * @param x2 Double
+     */
+    @PostMapping("/addOpenInterval")
+    public void addOpenInterval(@RequestParam double x1, @RequestParam double x2) {
+        if (intervalService.getCount() < 10) {
+            intervalService.addOpenInterval(x1, x2);
+        } else
+            System.out.println("Error max limit 10 elements");
+
+
     }
 
-    // Метод для решения задачи 1
+    /**
+     * Пересечение подмножеств
+     *
+     * @return List<Interval>
+     */
+    @GetMapping("/getIntersections")
+    public List<intervalapi.service.Interval> getIntersections() {
+        return intervalService.getIntersectionIntervals();
+    }
+
+    /**
+     * Число принадлежащее
+     * пересечению подмножеств
+     *
+     * @param x Double
+     * @return Double
+     */
     @GetMapping("/findClosest")
     public Double findClosest(@RequestParam double x) {
-        return set.findClosestInIntersection(x);
-
+        return intervalService.findClosest(x);
     }
 
-    // Метод для решения задачи 2
-    @GetMapping("/getIntersections")
-    public List  getIntersections() {
-        System.out.println("Пересечение интервалов:");
-        return set.getIntersection();
+    /**
+     * Просмотр текущего списка
+     */
+    @GetMapping("/list")
+    public void list() {
+        intervalService.list();
     }
 
+    /**
+     * Очистка текущего списка
+     */
+    @GetMapping("/clear")
+    public void clear() {
+        intervalService.clear();
+    }
 
 }
