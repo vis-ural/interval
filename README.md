@@ -2,7 +2,8 @@ docker build -t interval-api .
 
 docker run -p 8080:8080 interval-api
 
-
+OpenAPI Specification
+http://localhost:8080/swagger-ui/index.html
 
 
 # Добавить замкнутый интервал

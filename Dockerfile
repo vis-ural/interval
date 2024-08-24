@@ -5,7 +5,7 @@ FROM openjdk:11-jre-slim
 COPY target/interval-0.1.0.jar interval-api.jar
 
 # Указать команду для запуска приложения
-ENTRYPOINT ["java", "-jar", "interval-api.jar"]
+ENTRYPOINT ["java", "-Xms512m", "-Xmx1024m", "-jar", "interval-api.jar"]
 
 # Пример значения порта, на котором будет работать ваше приложение
 EXPOSE 8080
