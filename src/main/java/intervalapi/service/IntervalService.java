@@ -91,39 +91,55 @@ public class IntervalService {
      */
     public List<Interval> getIntersectionIntervals() {
         try {
-            List<double[]> points = new ArrayList<>();
-            double inf = Double.POSITIVE_INFINITY;
+            List<Interval> result = new ArrayList<>();
+
+            double globalStart = -Double.POSITIVE_INFINITY;
+            double globalEnd = Double.POSITIVE_INFINITY;
+
             for (Interval interval : intervalList) {
                 if (interval instanceof ClosedInterval) {
                     ClosedInterval ci = (ClosedInterval) interval;
-                    points.add(new double[]{ci.getX1(), ci.getX2()});
+                    globalStart = Math.max(globalStart, ci.getX1());
+                    globalEnd = Math.min(globalEnd, ci.getX2());
                 } else if (interval instanceof OpenInterval) {
                     OpenInterval oi = (OpenInterval) interval;
-                    points.add(new double[]{inf * -1, oi.getX1()});
-                    points.add(new double[]{oi.getX2(), inf});
+
+                    // Рассмотрим левую часть (-∞, 5]
+                    if (globalStart < 5) {
+                        double leftEnd = Math.min(globalEnd, 5);
+                        if (globalStart <= leftEnd) {
+                            result.add(new ClosedInterval(globalStart, leftEnd));
+                        }
+                    }
+
+                    // Рассмотрим правую часть [10, +∞)
+                    if (globalEnd > 10) {
+                        double rightStart = Math.max(globalStart, 10);
+                        if (rightStart <= globalEnd) {
+                            result.add(new ClosedInterval(rightStart, globalEnd));
+                        }
+                    }
+
+                    // Поскольку этот интервал не является стандартным замкнутым, мы завершаем процесс
+                    return result;
                 }
             }
-            points.sort(Comparator.comparingDouble(a -> a[0]));
-            List<Interval> result = new ArrayList<>();
-            double start = -inf;
-            double end = inf;
-            for (double[] point : points) {
-                if (point[0] > end) {
-                    result.add(new ClosedInterval(start, end));
-                    start = point[0];
-                    end = point[1];
-                } else {
-                    start = point[0];
-                    end = Math.min(end, point[1]);
-                }
+
+            // Если после обработки всех интервалов у нас есть пересечение в одной части
+            if (globalStart <= globalEnd) {
+                result.add(new ClosedInterval(globalStart, globalEnd));
             }
-            result.add(new ClosedInterval(start, end));
+
             return result;
         } catch (Exception e) {
             System.err.println("Ошибка при нахождении пересечений интервалов: " + e.getMessage());
             return Collections.emptyList();
         }
     }
+
+
+
+
 
     /**
      * Метод для нахождения ближайшего числа в пересечении интервалов

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: IntervalTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.02 s - in IntervalTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.04 s - in IntervalTest
