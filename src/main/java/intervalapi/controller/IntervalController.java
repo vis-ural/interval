@@ -2,10 +2,8 @@ package intervalapi.controller;
 
 import intervalapi.service.Interval;
 import intervalapi.service.IntervalService;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -16,7 +14,7 @@ public class IntervalController {
 
     @Resource
     @Qualifier("intervalService")
-    private IntervalService intervalService;
+    private final IntervalService intervalService = new IntervalService();
 
     /**
      * Добавление закрытого интервала
@@ -25,9 +23,9 @@ public class IntervalController {
      * @param x2 Double
      */
     @PostMapping("/addClosedInterval")
-    public List<Interval> addClosedInterval(@RequestParam double x1, @RequestParam double x2) {
+    public List<List<Interval>> addClosedInterval(@RequestParam double x1, @RequestParam double x2) {
         if (intervalService.getCount() < 10) {
-            return intervalService.addClosedInterval(x1, x2);
+            return intervalService.addCloseInterval(x1, x2);
         } else
             System.out.println("Error max limit 10 elements");
         return List.of();
@@ -40,7 +38,7 @@ public class IntervalController {
      * @param x2 Double
      */
     @PostMapping("/addOpenInterval")
-    public List<Interval> addOpenInterval(@RequestParam double x1, @RequestParam double x2) {
+    public List<List<Interval>> addOpenInterval(@RequestParam double x1, @RequestParam double x2) {
         if (intervalService.getCount() < 10) {
             return  intervalService.addOpenInterval(x1, x2);
         } else
@@ -55,8 +53,9 @@ public class IntervalController {
      * @return List<Interval>
      */
     @GetMapping("/getIntersections")
-    public List<intervalapi.service.Interval> getIntersections() {
-        return intervalService.getIntersectionIntervals();
+    public List<Interval> getIntersections() {
+        System.out.println(intervalService.findIntersections());
+        return intervalService.findIntersections();
     }
 
     /**
@@ -68,6 +67,7 @@ public class IntervalController {
      */
     @GetMapping("/findClosest")
     public Double findClosest(@RequestParam double x) {
+        System.out.println(intervalService.findClosest(x));
         return intervalService.findClosest(x);
     }
 
@@ -77,7 +77,7 @@ public class IntervalController {
      * @return String
      */
     @GetMapping("/list")
-    public List<Interval> list() {
+    public List<List<Interval>>  list() {
         return intervalService.list();
     }
 
@@ -85,8 +85,8 @@ public class IntervalController {
      * Очистка текущего списка
      */
     @GetMapping("/clear")
-    public List<Interval>  clear() {
-        return intervalService.clear();
+    public void clear() {
+        intervalService.clear();
     }
 
 }
